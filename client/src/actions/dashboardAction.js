@@ -1,7 +1,6 @@
 //Async action creators
 
 export const sendData = (url,payload) => {
-    console.log('url===',url,'payload===',payload)
     return dispatch => {
         return fetch(url,{
             method: 'POST',

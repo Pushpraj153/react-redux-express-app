@@ -10,29 +10,31 @@ import {connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-  };
-  
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+  constructor(props){
+    super();
+    this.state = {
+      response: '',
+      post: '',
+      responseToPost: '',
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.callApi = this.callApi.bind(this);
   }
   
-  callApi = async () => {    
+  
+  componentDidMount() {
+    this.callApi();
+  }
+  
+  callApi = () => {    
     this.props.getData('/api/hello')
   };
   
-  handleSubmit = async e => {
-    e.preventDefault();
+  handleSubmit = () => {
     this.props.sendData('/api/data',{ post: this.state.post })
   };
   
 render() {
-  console.log('data===',this.props.dataFromBackend)
     return (
       <div className="App">
         <header className="App-header">
@@ -50,7 +52,7 @@ render() {
           </a>
         </header>
         <p>{this.props.getDataFromBackend.express}</p>
-        <form onSubmit={this.handleSubmit}>
+        <div>
           <p>
             <strong>Post to Server:</strong>
           </p>
@@ -59,9 +61,9 @@ render() {
             value={this.state.post}
             onChange={e => this.setState({ post: e.target.value })}
           />
-          <button type="submit">Submit</button>
-        </form>
-        <p>{this.props.dataFromBackend.data}</p>
+          <button onClick={this.handleSubmit}>Submit</button>
+        </div>
+        <p style={{color : 'blue'}}><b>{this.props.dataFromBackend.data}</b></p>
       </div>
     );
   }
